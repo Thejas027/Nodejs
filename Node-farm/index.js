@@ -1,6 +1,6 @@
 const fs = require("fs"); // module to read and write the files
 const https = require("http");
-
+const url = require("url");
 /////////////////////////////////////////////////////
 // FILES
 
@@ -34,7 +34,18 @@ const https = require("http");
 /////////////////////////////////////////////////////
 // SERVER
 const server = https.createServer((req, res) => {
-  res.end("Hello from server end!");
+  const pathName = req.url;
+
+  if (pathName === "/overview" || pathName === "/")
+    res.end("  This is a overview");
+  else if (pathName === "/product") res.end("  This is a product");
+  else {
+    res.writeHead(404, {
+      "content-type": "text/html",
+      "my-own-header": "hello-world",
+    });
+    res.end("<h1>Page not found!</h1>");
+  }
 });
 
 server.listen(8000, "127.0.0.1", () => {
