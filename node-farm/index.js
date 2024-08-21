@@ -1,5 +1,7 @@
-const fs = require("fs"); // used to read and write the data in a file system
+const fs = require("fs");
 const http = require("http");
+const url = require("url");
+const path = require("path");
 
 // // replace function
 const replaceTemplate = (temp, product) => {
@@ -39,10 +41,10 @@ const dataObj = JSON.parse(data);
 
 // // creating a server
 const server = http.createServer((req, res) => {
-  const pathName = req.url;
+  const { query, pathname } = url.parse(req.url, true);
 
   // OVERVIEW PAGE
-  if (pathName === "/" || pathName === "/overview") {
+  if (pathname === "/" || pathname === "/overview") {
     res.writeHead(200, { "context-type": "text/html" });
 
     const cardHtml = dataObj
@@ -55,13 +57,16 @@ const server = http.createServer((req, res) => {
   }
 
   // PRODUCT PAGE
-  else if (pathName === "/product") {
+  else if (pathname === "/product") {
     res.writeHead(200, { "context-type": "text/html" });
-    res.end(tempProduct);
+
+    const product = dataObj[query.id];
+    const output = replaceTemplate(tempProduct, product);
+    res.end(output);
   }
 
   //API
-  else if (pathName === "/api") {
+  else if (pathname === "/api") {
     res.writeHead(200, { "context-type": "application/json" });
     res.end(data);
   }
