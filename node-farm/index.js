@@ -4,7 +4,7 @@ const url = require("url");
 
 const replaceTemplate = require("./modules/replaceTemplate");
 
-// // Template calls
+// Template calls
 const tempOverview = fs.readFileSync(
   `${__dirname}/templates/template-overview.html`,
   "utf-8"
@@ -18,11 +18,11 @@ const tempProduct = fs.readFileSync(
   "utf-8"
 );
 
-// // JSON File
+// JSON File
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObj = JSON.parse(data);
 
-// // creating a server
+// creating a server
 const server = http.createServer((req, res) => {
   const { query, pathname } = url.parse(req.url, true);
 
