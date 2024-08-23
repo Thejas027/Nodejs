@@ -80,13 +80,25 @@ const getDogPic = async () => {
     const data = await readFilePro(`${__dirname}/dog.txt`);
     console.log(`Breed : ${data}`);
 
-    const res = await superagent.get(
+    const res1Pro = superagent.get(
       `https://dog.ceo/api/breed/${data}/images/random`
     );
-    console.log(res.body.message);
 
-    await writeFilePro("dog-image.txt", res.body.message);
-    console.log("Random dog imagae saved to file");
+    const res2Pro = superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+
+    const res3Pro = superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+
+    const all = await Promise.all([res1Pro, res2Pro, res3Pro]);
+    const imgs = all.map((el) => el.body.message);
+
+    console.log(imgs);
+
+    await writeFilePro("dog-image.txt", imgs.join("\n"));
+    console.log("Random dog image saved to file");
   } catch (err) {
     console.log(err);
     throw err;
@@ -94,7 +106,7 @@ const getDogPic = async () => {
   return "2: Ready 🐶";
 };
 
-//----> making returing the string from the async function gives the correct results of console.log's
+//----> making returning the string from the async function gives the correct results of console.log's
 
 /*
 1.if this is done the promise will be still pending
@@ -123,4 +135,3 @@ console.log("3: Done getting dog pictures");
     console.log("ERROR 💥");
   }
 })();
-
