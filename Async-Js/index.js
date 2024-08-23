@@ -88,8 +88,38 @@ const getDogPic = async () => {
     await writeFilePro("dog-image.txt", res.body.message);
     console.log("Random dog imagae saved to file");
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
+    throw err;
   }
+  return "2: Ready 🐶";
 };
 
-getDogPic();
+//----> making returing the string from the async function gives the correct results of console.log's
+
+/*
+1.if this is done the promise will be still pending
+console.log("1: Will get dog pics");
+const x = getDogPic();
+console.log(x);
+console.log("3: Done getting dog pictures");
+*/
+
+/* 2. but using another then promise give the correct results of console.log's
+console.log("1: Will get dog pics");
+getDogPic()
+  .then((x) => console.log(x))
+  .catch((err) => console.log("ERROR 💥"));
+console.log("3: Done getting dog pictures");
+*/
+
+/*    USING ASUNC AWAIT */
+(async () => {
+  try {
+    console.log("1: Will get dog pics");
+    const x = await getDogPic();
+    console.log(x);
+    console.log("3: Done getting dog pictures");
+  } catch (err) {
+    console.log("ERROR 💥");
+  }
+})();
