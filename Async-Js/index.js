@@ -112,7 +112,7 @@ getDogPic()
 console.log("3: Done getting dog pictures");
 */
 
-/*    USING ASUNC AWAIT */
+/*    USING ASYNC AWAIT */
 (async () => {
   try {
     console.log("1: Will get dog pics");
@@ -123,3 +123,4 @@ console.log("3: Done getting dog pictures");
     console.log("ERROR 💥");
   }
 })();
+
