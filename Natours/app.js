@@ -11,7 +11,7 @@ const tours = JSON.parse(
 );
 
 // get to get all the tours
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
     results: tours.length,
@@ -19,10 +19,10 @@ app.get('/api/v1/tours', (req, res) => {
       tours,
     },
   });
-});
+};
 
 //to get a particular tour with a id --> creating a variable to it
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
 
@@ -39,10 +39,10 @@ app.get('/api/v1/tours/:id', (req, res) => {
       tours: tour,
     },
   });
-});
+};
 
 // post to create a new tour, where data can be sent to client to server
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
 
@@ -59,11 +59,10 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
-});
+};
 
 // patch method --> to update the tour
-
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
   if (req.params.id * 1 > tours.length)
     return res.status(404).json({
       status: 'fail',
@@ -76,11 +75,10 @@ app.patch('/api/v1/tours/:id', (req, res) => {
       tour: '<Updated tour here.../>',
     },
   });
-});
+};
 
 // deleting a tour
-
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   if (req.params.id * 1 > tours.length)
     return res.status(404).json({
       status: 'fail',
@@ -91,7 +89,17 @@ app.delete('/api/v1/tours/:id', (req, res) => {
     status: 'success',
     data: null,
   });
-});
+};
+
+// app.get('/api/v1/tours', getAllTours);
+// app.post('/api/v1/tours', createTour);
+// app.get('/api/v1/tours/:id', getTour);
+// app.patch('/api/v1/tours/:id', updateTour);
+// app.delete('/api/v1/tours/:id', deleteTour);
+
+app.route('api/v1/tours').get(getAllTours).post(createTour);
+
+app.route('api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
 
 // listening to the port
 const port = 3000;
