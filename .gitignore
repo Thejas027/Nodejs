@@ -1,3 +1,9 @@
+
+
+course
+*.env
+.prettierrc
+
 <<<<<<< HEAD
 # Logs
 logs
@@ -131,5 +137,3 @@ dist
 >>>>>>> f6747e949bc592567b893340f56d87b2a0a70f4c
 
 
-course
-*.env
