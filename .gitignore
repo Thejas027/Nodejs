@@ -1,7 +1,7 @@
 
 
 course
-*.env
+.env
 .prettierrc
 
 <<<<<<< HEAD
